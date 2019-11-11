@@ -7,6 +7,16 @@ const todos = [
 ];
 
 const server = http.createServer((req, res) => {
+  let body = [];
+
+  req
+    .on("data", chunck => {
+      body.push(chunck);
+    })
+    .on("end", () => {
+      body = Buffer.concat(body).toString();
+      console.log(body);
+    });
   res.end(
     JSON.stringify({
       success: true,
